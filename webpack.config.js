@@ -8,6 +8,9 @@ var development = !production;
 
 var config = {
   entry: [
+    'webpack-hot-middleware/client',
+    'font-awesome-loader',
+    'bootstrap-loader',
     './src/index.html',
     './src/index.tsx'
   ],
@@ -25,7 +28,32 @@ var config = {
     loaders: [
       { test: /\.ts(x?)$/,           loaders: ['ts-loader'] },
       { test: /index\.html$/,        loader: "file-loader?name=[path][name].[ext]" },
-      { test: /\.(jpe?g|png|gif)$/i, loader: "file?name=[path][name].[ext]?[hash]" }
+      { test: /\.(jpe?g|png|gif)$/i, loader: "file?name=[path][name].[ext]?[hash]" },
+      {
+        test: /\.css$/,
+        loaders: [
+          'style',
+          'css?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]',
+          'postcss',
+        ],
+      },
+      {
+        test: /\.scss$/,
+        loaders: [
+          'style',
+          'css?modules&importLoaders=2&localIdentName=[name]__[local]__[hash:base64:5]',
+          'postcss',
+          'sass',
+        ],
+      },
+      {
+        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: "url?limit=10000"
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+        loader: 'file'
+      }
     ],
 
     preLoaders: [
@@ -37,7 +65,7 @@ var config = {
 };
 
 if (development) {
-  config['devtool'] = 'source-map';
+  config['devtool'] = '#cheap-module-eval-source-map';
   config.devServer = {
     host: '0.0.0.0',
     port: 3000

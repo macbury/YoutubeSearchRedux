@@ -5,10 +5,23 @@ interface IYTSearchOptions {
   apiKey: String
 }
 
+export interface YoutubeVideo {
+  etag: string,
+  id: { kind: string, videoId: string },
+  snippet: {
+    channelId: string,
+    channelTitle: string,
+    description: string,
+    publishedAt: string,
+    title: string,
+    thumbnails: { [key: string]: { height: number, width: number, url: string } }
+  }
+}
+
 /**
 * Search videos using youtube api
 */
-export default function YTSearch(options : IYTSearchOptions, callback : (items) => void) : void {
+export function YTSearch(options : IYTSearchOptions, callback : (items : Array<YoutubeVideo>) => void) : void {
   var params = {
     part: 'snippet',
     key: options.apiKey,
