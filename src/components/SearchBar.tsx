@@ -4,7 +4,11 @@ interface SearchBarState {
   term: String;
 }
 
-class SearchBar extends React.Component<{}, SearchBarState> {
+interface SearchBarProps {
+  onSearchTermChange: (term : string) => void
+}
+
+class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
 
   constructor(props : any) {
     super(props);
@@ -16,14 +20,14 @@ class SearchBar extends React.Component<{}, SearchBarState> {
     return (
       <div>
         <input value={this.state.term} onChange={this.onChange.bind(this)} />
-        <p>{ this.state.term }</p>
       </div>
-
     );
   }
 
   private onChange(event : any) : void {
-    this.setState({ term: event.target.value });
+    let term = event.target.value;
+    this.setState({ term });
+    this.props.onSearchTermChange(term);
   }
  }
 
